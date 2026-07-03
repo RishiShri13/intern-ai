@@ -2,97 +2,128 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
+import PrimaryButton from "@/components/common/PrimaryButton";
+import SecondaryButton from "@/components/common/SecondaryButton";
+import Container from "@/components/common/Container";
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    "Features",
-    "AI",
-    "Pricing",
-    "Testimonials",
-    "FAQ",
+    {
+      label: "Features",
+      href: "#features",
+    },
+    {
+      label: "AI",
+      href: "#ai",
+    },
+    {
+      label: "Dashboard",
+      href: "#dashboard",
+    },
+    {
+      label: "Pricing",
+      href: "#pricing",
+    },
+    {
+      label: "FAQ",
+      href: "#faq",
+    },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-7xl px-6 py-4">
+      <Container className="py-4">
         <motion.div
           initial={{ y: -40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-6 py-4 backdrop-blur-xl"
+          transition={{ duration: 0.5 }}
+          className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-6 py-4 backdrop-blur-2xl"
         >
           {/* Logo */}
 
-          <h1 className="text-2xl font-black tracking-tight">
-            Intern<span className="text-cyan-400">AI</span>
-          </h1>
+          <a
+            href="#"
+            className="text-2xl font-black tracking-tight"
+          >
+            Intern
+            <span className="text-cyan-400">AI</span>
+          </a>
 
           {/* Desktop */}
 
-          <nav className="hidden md:flex gap-8">
+          <nav className="hidden items-center gap-8 md:flex">
             {links.map((item) => (
               <a
-                key={item}
-                href="#"
-                className="text-sm text-slate-300 transition hover:text-cyan-400"
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium text-slate-300 transition duration-300 hover:text-cyan-400"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
 
-          {/* Buttons */}
+          {/* Desktop Buttons */}
 
-          <div className="hidden md:flex gap-3">
-            <button className="rounded-lg border border-white/10 px-5 py-2 hover:bg-white/10 transition">
+          <div className="hidden items-center gap-3 md:flex">
+            <SecondaryButton>
               Login
-            </button>
+            </SecondaryButton>
 
-            <button className="rounded-lg bg-cyan-500 px-5 py-2 font-medium hover:bg-cyan-400 transition">
+            <PrimaryButton>
               Get Started
-            </button>
+            </PrimaryButton>
           </div>
 
-          {/* Mobile */}
+          {/* Mobile Button */}
 
           <button
-            className="md:hidden"
             onClick={() => setOpen(!open)}
+            className="md:hidden"
           >
-            {open ? <X /> : <Menu />}
+            {open ? <X size={26} /> : <Menu size={26} />}
           </button>
         </motion.div>
 
+        {/* Mobile Menu */}
+
         {open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-4 rounded-2xl border border-white/10 bg-slate-900/95 backdrop-blur-xl p-6 md:hidden"
+            initial={{
+              opacity: 0,
+              y: -15,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            className="mt-4 rounded-2xl border border-white/10 bg-slate-900/95 p-6 backdrop-blur-2xl md:hidden"
           >
-            <div className="flex flex-col gap-4">
-
+            <div className="flex flex-col gap-5">
               {links.map((item) => (
                 <a
-                  key={item}
-                  href="#"
-                  className="text-slate-300 hover:text-cyan-400"
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="text-slate-300 transition hover:text-cyan-400"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
 
-              <button className="rounded-lg border border-white/10 py-3">
+              <SecondaryButton>
                 Login
-              </button>
+              </SecondaryButton>
 
-              <button className="rounded-lg bg-cyan-500 py-3 font-semibold">
+              <PrimaryButton>
                 Get Started
-              </button>
-
+              </PrimaryButton>
             </div>
           </motion.div>
         )}
-      </div>
+      </Container>
     </header>
   );
 }
