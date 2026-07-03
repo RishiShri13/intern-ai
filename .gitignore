@@ -1,38 +1,76 @@
-# Node
+# ==========================
+# Dependencies
+# ==========================
 node_modules/
-npm-debug.log*
+client/node_modules/
+server/node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
 
 # Build
 dist/
 build/
+coverage/
+.next/
+out/
+desktop.ini
 
-# Environment Variables
-.env
-.env.local
-.env.development
-.env.production
+# Vite
+client/dist/
 
 # Logs
 logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Prisma
+server/prisma/dev.db
+server/prisma/dev.db-journal
 
 # OS
 .DS_Store
 Thumbs.db
 
-# VS Code
+# IDE
 .vscode/
+.idea/
+*.swp
 
-# Python
-venv/
-__pycache__/
-*.pyc
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
 
-# Prisma
-prisma/dev.db
+# Python ML
+*.pkl
+*.joblib
 
-# Coverage
+# Uploads
+uploads/
+temp/
+
+# Docker
+docker/*.log
+
+# Testing
 coverage/
+.nyc_output/
 
 # Misc
-.idea/
+*.zip
+*.tar
+*.gz

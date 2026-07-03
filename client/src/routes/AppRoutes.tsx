@@ -1,11 +1,12 @@
-import { Routes, Route } from "react-router-dom";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "@/pages/Landing/Landing";
 
-export default function AppRoutes() {
+export function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

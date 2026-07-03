@@ -1,18 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import App from "./App";
 import "./index.css";
 
-import App from "./App";
-import { BrowserRouter } from "react-router-dom";
-import AppProvider from "@/providers/AppProvider";
+import QueryProvider from "./providers/QueryProvider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AppProvider>
-        <App />
-      </AppProvider>
-    </BrowserRouter>
+    <QueryProvider>
+      <App />
+    </QueryProvider>
   </React.StrictMode>
 );
