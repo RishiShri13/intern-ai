@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import type { User } from "@/store/auth.store";
+import axios from "axios";
 
 import { useAuthStore } from "@/store/auth.store";
+import { loginUser } from "@/services/auth";
+import type { User } from "@/store/auth.store";
 
 const schema = z.object({
   email: z.string().email("Invalid email"),
@@ -17,7 +19,8 @@ type FormData = z.infer<typeof schema>;
 
 export default function Login() {
   const navigate = useNavigate();
-  const setAuth = useAuthStore((s) => s.setAuth);
+
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const [loading, setLoading] = useState(false);
 
@@ -33,27 +36,31 @@ export default function Login() {
     try {
       setLoading(true);
 
-      // 🔥 MOCK LOGIN (replace later with API)
-      console.log("LOGIN DATA:", data);
+      const response = await loginUser(data);
 
-      const fakeUser: User = {
-  id: "1",
-  name: "InternAI User",
-  email: data.email,
-  role: "ADMIN",
-};
+      localStorage.setItem("token", response.token);
 
-      const fakeToken = "demo-token";
+      const user: User = {
+        id: response.user.id,
+        name: response.user.name,
+        email: response.user.email,
+        role: "ADMIN", // Temporary until backend returns role
+      };
 
-      localStorage.setItem("token", fakeToken);
-      setAuth(fakeUser, fakeToken);      setTimeout(() => {
-        setLoading(false);
-        navigate("/dashboard");
-      }, 800);
-    } catch (err) {
-      console.error(err);
+      setAuth(user, response.token);
+
+      navigate("/dashboard");
+
+    } catch (error: unknown) {
+      let message = "Login failed";
+
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || message;
+      }
+
+      alert(message);
+    } finally {
       setLoading(false);
-      alert("Login failed");
     }
   };
 
@@ -73,14 +80,17 @@ export default function Login() {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
-          {/* Email */}
           <div>
-            <label className="text-sm text-slate-400">Email</label>
+            <label className="text-sm text-slate-400">
+              Email
+            </label>
+
             <input
               {...register("email")}
               className="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 outline-none focus:border-cyan-400"
               placeholder="Enter email"
             />
+
             {errors.email && (
               <p className="text-red-400 text-xs mt-1">
                 {errors.email.message}
@@ -88,15 +98,18 @@ export default function Login() {
             )}
           </div>
 
-          {/* Password */}
           <div>
-            <label className="text-sm text-slate-400">Password</label>
+            <label className="text-sm text-slate-400">
+              Password
+            </label>
+
             <input
               type="password"
               {...register("password")}
               className="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 outline-none focus:border-cyan-400"
               placeholder="Enter password"
             />
+
             {errors.password && (
               <p className="text-red-400 text-xs mt-1">
                 {errors.password.message}
@@ -104,7 +117,6 @@ export default function Login() {
             )}
           </div>
 
-          {/* Button */}
           <button
             type="submit"
             disabled={loading}
@@ -113,10 +125,6 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        <p className="mt-6 text-center text-xs text-slate-500">
-          Demo mode active (backend will be added later)
-        </p>
       </motion.div>
     </div>
   );

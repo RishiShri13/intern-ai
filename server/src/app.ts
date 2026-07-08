@@ -1,12 +1,19 @@
+<<<<<<< HEAD
+import { Router } from "express";
+import { registerCompany } from "./auth.controller";
+=======
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
+>>>>>>> origin/main
 
-const app = express();
+const router = Router();
 
-app.use(cors());
-app.use(express.json());
+router.post("/register-company", registerCompany);
 
+<<<<<<< HEAD
+export default router;
+=======
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -17,3 +24,4 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 export default app;
+>>>>>>> origin/main

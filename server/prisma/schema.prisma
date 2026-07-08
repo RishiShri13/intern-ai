@@ -7,10 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+<<<<<<< HEAD
+enum Role {
+  SUPER_ADMIN
+  COMPANY_ADMIN
+  MENTOR
+  INTERN
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+}
+
+=======
+>>>>>>> origin/main
 model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
   password  String
+<<<<<<< HEAD
+
+  role      Role     @default(COMPANY_ADMIN)
+
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+=======
+  createdAt DateTime @default(now())
+>>>>>>> origin/main
 }
