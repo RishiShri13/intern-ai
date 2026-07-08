@@ -8,6 +8,17 @@ export const findUserByEmail = async (email: string) => {
   });
 };
 
+export const findUserById = async (id: string) => {
+  return prisma.user.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      company: true,
+    },
+  });
+};
+
 export const createCompany = async (
   companyName: string,
   companyEmail: string

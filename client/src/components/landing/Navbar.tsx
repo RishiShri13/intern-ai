@@ -1,6 +1,7 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 import PrimaryButton from "@/components/common/PrimaryButton";
 import SecondaryButton from "@/components/common/SecondaryButton";
@@ -42,17 +43,15 @@ export default function Navbar() {
           className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-6 py-4 backdrop-blur-2xl"
         >
           {/* Logo */}
-
-          <a
-            href="#"
+          <Link
+            to="/"
             className="text-2xl font-black tracking-tight"
           >
             Intern
             <span className="text-cyan-400">AI</span>
-          </a>
+          </Link>
 
-          {/* Desktop */}
-
+          {/* Desktop Navigation */}
           <nav className="hidden items-center gap-8 md:flex">
             {links.map((item) => (
               <a
@@ -66,19 +65,21 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop Buttons */}
-
           <div className="hidden items-center gap-3 md:flex">
-            <SecondaryButton>
-              Login
-            </SecondaryButton>
+            <Link to="/login">
+              <SecondaryButton>
+                Login
+              </SecondaryButton>
+            </Link>
 
-            <PrimaryButton>
-              Get Started
-            </PrimaryButton>
+            <Link to="/login">
+              <PrimaryButton>
+                Get Started
+              </PrimaryButton>
+            </Link>
           </div>
 
-          {/* Mobile Button */}
-
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden"
@@ -88,7 +89,6 @@ export default function Navbar() {
         </motion.div>
 
         {/* Mobile Menu */}
-
         {open && (
           <motion.div
             initial={{
@@ -113,13 +113,17 @@ export default function Navbar() {
                 </a>
               ))}
 
-              <SecondaryButton>
-                Login
-              </SecondaryButton>
+              <Link to="/login" onClick={() => setOpen(false)}>
+                <SecondaryButton>
+                  Login
+                </SecondaryButton>
+              </Link>
 
-              <PrimaryButton>
-                Get Started
-              </PrimaryButton>
+              <Link to="/login" onClick={() => setOpen(false)}>
+                <PrimaryButton>
+                  Get Started
+                </PrimaryButton>
+              </Link>
             </div>
           </motion.div>
         )}
