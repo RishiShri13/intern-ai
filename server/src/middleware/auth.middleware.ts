@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+<<<<<<< HEAD
 import prisma from "../lib/prisma";
 
 export interface AuthRequest extends Request {
@@ -10,6 +11,18 @@ export interface AuthRequest extends Request {
 }
 
 export const protect = async (
+=======
+
+interface JwtPayload {
+  id: string;
+}
+
+export interface AuthRequest extends Request {
+  user?: JwtPayload;
+}
+
+export const protect = (
+>>>>>>> origin/main
   req: AuthRequest,
   res: Response,
   next: NextFunction
@@ -17,6 +30,7 @@ export const protect = async (
   try {
     const authHeader = req.headers.authorization;
 
+<<<<<<< HEAD
     if (
       !authHeader ||
       !authHeader.startsWith("Bearer ")
@@ -24,6 +38,12 @@ export const protect = async (
       return res.status(401).json({
         success: false,
         message: "Unauthorized",
+=======
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "No token provided",
+>>>>>>> origin/main
       });
     }
 
@@ -32,6 +52,7 @@ export const protect = async (
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string
+<<<<<<< HEAD
     ) as {
       id: string;
     };
@@ -59,6 +80,17 @@ export const protect = async (
     return res.status(401).json({
       success: false,
       message: "Invalid Token",
+=======
+    ) as JwtPayload;
+
+    req.user = decoded;
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or Expired Token",
+>>>>>>> origin/main
     });
   }
 };
